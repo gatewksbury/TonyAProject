@@ -1,0 +1,108 @@
+%body{:'ng-app' => 'navbarTest',:'ng-controller' => 'navbarDirectiveTestCtrl'}
+  
+  <!-- Here's the "Angled Navbar" directive in use -->
+  %angled-navbar{:'menus' => 'menus',:'search' => 'search',:'searchfn' => 'searchfn()',:'navfn' => 'navfn(action)',:'inverse' => 'inverse',:'brand' => 'brand',:'affixed'=>'affixed'}
+  <!-- /angled-navbar -->
+  
+  .container
+    .row
+      .col-xs-7
+        %h1 
+          Angled Navbar
+          %br
+          %small (AngularJS &amp; Bootstrap 3)
+        %p
+          The element 
+          %code &lt;angled-navbar&gt;
+          is a directive built in AngularJS that when used in its simpliest form will produce a blank navigation bar with default branding (
+          %span.glyphicon.glyphicon-certificate
+          ) using Bootstrap 3 markup and styles.
+        %p
+          Use the following attributes to add menus, search forms, branding and more...
+          %ul
+            %li 
+              %strong menus:
+              when supplied with a JS array of objects in the following form:
+              %code
+                %pre
+                  = preserve do
+                    :escaped
+                      [
+                        {
+                          title: 'With Dropdown',
+                          menu: [
+                            {title: 'Item One',action: 'myAction'},
+                            {divider: true},
+                            {title: 'Item Two',action: 'otherAction'}
+                          ]
+                        },
+                        {title: 'Nav Link',action: 'navLinkAction'}
+                      ]
+              Two items in the navigation bar will be created, the first will have a drop down menu and the latter will only be a navigation link.
+            %li
+              %strong brand:
+              A string to place in the branding area of Bootstrap's navbar.  If branding is not supplied then the default icon will appear.
+            %li
+              %strong affixed:
+              A string describing the placement of a fixed navbar, values are either
+              %i top, bottom, [anything].
+              Any string other than "top" or "bottom" will result in the navbar not being affixed at all.  Affixing the navbar requires additional CSS, please include the 
+              %i body.navbar-affixed-top
+              &amp;
+              %i body.navbar-affixed-bottom
+              CSS classes.
+            %li
+              %strong search:
+              A JS object with two properties:
+              %ol
+                %li
+                  %strong show:
+                  A boolean value (true/false) on whether to show the default search form in the navbar.  Currently always right aligned.
+                %li
+                  %strong terms:
+                  The search object is two way bound, this is the ngModel for the search form and can be used directly in the parent controller.
+            %li
+              %strong inverse:
+              A boolean value (true/false) on which Bootstrap style to use for the navbar, either normal or inverse.
+            %li
+              %strong navfn:
+              A function passed to the directive from the parent that the directive should call when a selection is made from a menu.  The
+              %i action
+              string of a menu item will be passed to this function.  If this function is undefined the directive will emit an event as
+              %i nav.menu 
+              with a data object containing the 'action.'
+            %li
+              %strong searchfn:
+              A function passed to the directive to be called when the search form's button is clicked.  If the function is undefined the directive will emit an event as 
+              %i nav.search.execute.
+      .col-xs-5
+        %h3 Tests
+        %hr
+        %p
+          %strong Menu item selected:
+          %span.text-danger {{item}}
+          %span.help-block Select something from the menus in the navbar.
+        %form
+          .form-group
+            %label{:'for'=>'branding'} Branding
+            %input.form-control.col-xs-12{:'id'=>'branding',:'ng-model'=>'brand'}
+            %p.help-block Change the navbar branding by changing the text above.  You can enter HTML in as well.
+        %strong Navbar styling
+        %br
+        %button.btn.btn-primary{:'data-toggle'=>'button',:'type'=>'button',:'ng-click'=>'toggleStyling()'} {{styling}}
+        %p.help-block Use the toggle button to change the navbar styling.
+        %strong Add another menu on the fly
+        %br
+        %button.btn.btn-primary{:'ng-click'=>'addMenu()'} Add Menu
+        %p.help-block Because the menu array is two way bound you can manipulate the menus' array and add or subtract from it on the fly, dynamically changing your navbar when your application does.
+        %strong Search form
+        %br
+        %button.btn.btn-primary{:'data-toggle'=>'button',:'type'=>'button',:'ng-click'=>'toggleSearchForm()'} Search {{searchDisplay}}
+        %p Hide and show the search form.
+        %strong Search terms:
+        %span.text-danger {{search.terms}}
+        %p.help-block The search button for these tests will just display an alert box informing you of your search terms, but it does show that the search function was passed and executed correctly.
+        %strong Affixed
+        %br
+        %button.btn.btn-primary{:'ng-click'=>'toggleAffixed()'} Affixed {{affixed | uppercase}}
+        %p.help-block Cycle through navbar affixed states by continuously clicking button above.

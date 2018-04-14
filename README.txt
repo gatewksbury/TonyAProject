@@ -1,0 +1,3 @@
+A Pen created at CodePen.io. You can find this one at https://codepen.io/gatewksbury/pen/Brgmax.
+
+ A navbar directive to recreate the Bootstrap navbar by feeding the directive attributes rather than having to recreate the Bootstrap navbar example every time when writing a new application.  Two way binding between the navbar's menu items and the controller allows for dynamic creation and editting of the navbar's menus.
